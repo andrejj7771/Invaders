@@ -5,14 +5,13 @@ CONFIG -= qt
 
 DESTDIR = ../bin
 
-LIBS += -LC:/SFML/lib/ -lsfml-graphics
-LIBS += -LC:/SFML/lib/ -lsfml-window
-LIBS += -LC:/SFML/lib/ -lsfml-system
-LIBS += -LC:/SFML/lib/ -logg
-LIBS += -LC:/SFML/lib/ -lopenal32
-LIBS += -LC:/SFML/lib/ -lsfml-audio
+LIBS +=  -lsfml-graphics
+LIBS +=  -lsfml-window
+LIBS +=  -lsfml-system
+LIBS +=  -logg
+LIBS +=  -lopenal32
+LIBS +=  -lsfml-audio
 
-INCLUDEPATH += C:/SFML/include
 INCLUDEPATH += ../include
 
 HEADERS += ../include/Scene.h
