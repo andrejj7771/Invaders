@@ -18,14 +18,6 @@ void Bullet::on_collision(obj_t type) {
 }
 
 void Bullet::on_update() {
-	if (is_visible() == false) {
-		return;
-	}
-	
-	if (is_destroyed() == true) {
-		return;
-	}
-	
 	const sf::Vector2f & pos = get_position();
 	
 	if (pos.y < 0) {

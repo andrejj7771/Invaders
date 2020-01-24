@@ -47,6 +47,12 @@ public:
 	}
 	
 	inline void update() {
+		if (m_need_destroy == true ||
+				m_visible == false)
+		{
+			return;
+		}
+		
 		on_update();
 	}
 	

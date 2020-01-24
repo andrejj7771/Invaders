@@ -27,6 +27,7 @@ void Player::on_destroy() {
 void Player::on_collision(obj_t type) {
 	if (type == obj_t::enemy) {
 		printf("Game Over!!!\n");
+		destroy();
 	}
 }
 

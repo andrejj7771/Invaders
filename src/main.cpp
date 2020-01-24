@@ -4,15 +4,39 @@
 #include "Player.h"
 #include "Enemy.h"
 
+#include "Level.h"
+#include "LevelManager.h"
+
 int main() {
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Invaders");
 	
 	Scene & scene = Scene::instance();
-	scene.add_object(std::make_shared<Player>());
 	
-	ObjectPtr enemy = std::make_shared<Enemy>(sf::Vector2f(375, 0));
+	LevelManagerPtr level_manager = scene.get_level_manager();
 	
-	scene.add_object(enemy);
+	LevelPtr level = std::make_shared<Level>("test_level_1");
+	level->create_player(sf::Vector2f(375, 0));
+	
+	level->add_enemy(sf::Vector2f(625, 0));
+	level->add_enemy(sf::Vector2f(375, 0));
+	level->add_enemy(sf::Vector2f(125, 0));
+	
+	level_manager->add_level(level);
+	
+	level = std::make_shared<Level>("test_level_2");
+	level->create_player(sf::Vector2f(375, 0));
+	
+	level->add_enemy(sf::Vector2f(625, 0));
+	level->add_enemy(sf::Vector2f(500, 0));
+	level->add_enemy(sf::Vector2f(375, 0));
+	level->add_enemy(sf::Vector2f(250, 0));
+	level->add_enemy(sf::Vector2f(125, 0));
+	
+	level->add_enemy(sf::Vector2f(500, 100));
+	level->add_enemy(sf::Vector2f(375, 100));
+	level->add_enemy(sf::Vector2f(250, 100));
+	
+	level_manager->add_level(level);
 	
 	while(window.isOpen()) {
 		scene.update();

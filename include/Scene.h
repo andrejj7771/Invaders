@@ -1,9 +1,13 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "Object.h"
+#include "LevelManager.h"
+
+typedef std::shared_ptr<LevelManager> LevelManagerPtr;
 
 class Scene {
+	
+	LevelManagerPtr m_level_manager;
 	
 	std::vector<ObjectPtr> m_objects;
 	
@@ -27,34 +31,41 @@ public:
 			return;
 		}
 		
+		m_level_manager->update();
+		
+		// stop the game if there is no more levels
+		if (m_level_manager->is_end()) {
+			return;
+		}
+		
 		for (size_t i = 0; i < m_objects.size(); ++i) {
 			m_objects.at(i)->update();
 		}
 		
 		//check collision and remove destroyed objects
-		for (size_t i = 0; i < m_objects.size() - 1; ++i) {
+		for (size_t i = 0; i < m_objects.size(); ++i) {
 			const ObjectPtr & obj_i = m_objects.at(i);
-			if (obj_i->is_destroyed() == true) {
-				rem_object(i--);
-				continue;
-			}
-			
 			if (obj_i->is_visible() == false) {
 				continue;
 			}
 			
-			for (size_t j = i + 1; j < m_objects.size(); ++j) {
-				const ObjectPtr & obj_j = m_objects.at(j);
-				if (obj_j->is_destroyed() == true) {
-					rem_object(j--);
+			for (size_t j = 0; j < m_objects.size(); ++j) {
+				if (i == j) {
 					continue;
 				}
 				
+				const ObjectPtr & obj_j = m_objects.at(j);
 				if (obj_j->is_visible() == false) {
 					continue;
 				}
 				
 				obj_i->check_collision(obj_j);
+			}
+		}
+		
+		for (auto it = m_objects.begin(); it != m_objects.end(); ++it) {
+			if ((*it)->is_destroyed() == true) {
+				m_objects.erase(it--);
 			}
 		}
 	}
@@ -116,6 +127,10 @@ public:
 	
 	inline size_t get_num_objects() const {
 		return m_objects.size();
+	}
+	
+	inline LevelManagerPtr get_level_manager() const {
+		return m_level_manager;
 	}
 	
 };
