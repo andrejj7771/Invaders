@@ -14,28 +14,12 @@ int main() {
 	
 	LevelManagerPtr level_manager = std::make_shared<LevelManager>();
 	
-	LevelPtr level = std::make_shared<Level>("test_level_1");
-	level->create_player(sf::Vector2f(375, 0));
-	
-	level->add_enemy(sf::Vector2f(625, 0));
-	level->add_enemy(sf::Vector2f(375, 0));
-	level->add_enemy(sf::Vector2f(125, 0));
-	
+	LevelPtr level = std::make_shared<Level>("");
+	level->load_from_file("/home/andrey/Invaders/data/levels/level1.lvl");
 	level_manager->add_level(level);
 	
-	level = std::make_shared<Level>("test_level_2");
-	level->create_player(sf::Vector2f(375, 0));
-	
-	level->add_enemy(sf::Vector2f(625, 0));
-	level->add_enemy(sf::Vector2f(500, 0));
-	level->add_enemy(sf::Vector2f(375, 0));
-	level->add_enemy(sf::Vector2f(250, 0));
-	level->add_enemy(sf::Vector2f(125, 0));
-	
-	level->add_enemy(sf::Vector2f(500, 100));
-	level->add_enemy(sf::Vector2f(375, 100));
-	level->add_enemy(sf::Vector2f(250, 100));
-	
+	level = std::make_shared<Level>("");
+	level->load_from_file("/home/andrey/Invaders/data/levels/level2.lvl");
 	level_manager->add_level(level);
 	
 	sf::Clock clock;

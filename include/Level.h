@@ -10,6 +10,9 @@
 #include <memory>
 #include <vector>
 
+#include <fstream>
+#include <sstream>
+
 class Object;
 typedef std::shared_ptr<Object> ObjectPtr;
 
@@ -111,6 +114,43 @@ public:
 	
 	inline bool load_from_file(const std::string & path) {
 		assert(path.empty() == false);
+		
+		std::ifstream file_stream(path);
+		if (file_stream.is_open() == false) {
+			printf("%s -> can't open file.\n", __FUNCTION__);
+			return false;
+		}
+		
+		std::string line;
+		std::getline(file_stream, m_level_name); // first string is always a level name
+		
+		while (std::getline(file_stream, line)) {
+			if (line.empty() == true) {
+				continue;
+			}
+			
+			std::string type;
+			std::string x;
+			std::string y;
+			
+			std::istringstream iss(line);
+			std::getline(iss, type, ' ');
+			std::getline(iss, x, ' ');
+			std::getline(iss, y, ' ');
+			
+			char c_type = *type.begin();
+			float c_x = std::stof(x);
+			float c_y = std::stof(y);
+			
+			if (c_type == '1') {
+				create_player(sf::Vector2f(c_x, c_y));
+			} else if(c_type == '2') {
+				add_enemy(sf::Vector2f(c_x, c_y));
+			} else {
+				continue;
+			}
+		}
+		
 		
 		return false;
 	}
