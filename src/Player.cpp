@@ -31,9 +31,9 @@ void Player::on_collision(obj_t type) {
 	}
 }
 
-void Player::on_update() {
+void Player::on_update(float time) {
 	if (bullet != nullptr) {
-		bullet->update();
+		bullet->update(time);
 	}
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
@@ -43,7 +43,7 @@ void Player::on_update() {
 			return;
 		}
 		
-		set_position(sf::Vector2f(pos.x - 0.1f, pos.y));
+		set_position(sf::Vector2f(pos.x - 0.5f * time, pos.y));
 	}
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
@@ -53,7 +53,7 @@ void Player::on_update() {
 			return;
 		}
 		
-		set_position(sf::Vector2f(pos.x + 0.1f, pos.y));
+		set_position(sf::Vector2f(pos.x + 0.5f * time, pos.y));
 	}
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {

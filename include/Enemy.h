@@ -19,7 +19,7 @@ protected:
 	
 	void on_collision(obj_t type) override;
 	void on_draw(sf::RenderWindow & render) override;
-	void on_update() override;
+	void on_update(float time) override;
 	
 };
 

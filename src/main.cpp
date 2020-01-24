@@ -38,10 +38,17 @@ int main() {
 	
 	level_manager->add_level(level);
 	
+	sf::Clock clock;
+	
 	while(window.isOpen()) {
+		float time = clock.getElapsedTime().asMicroseconds();
+		clock.restart();
+		
+		time /= 800;
+		
 		level_manager->update();
 		if (level_manager->is_end() == false) {
-			scene.update();
+			scene.update(time);
 		}
 		
 		sf::Event event;

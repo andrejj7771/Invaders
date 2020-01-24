@@ -24,13 +24,13 @@ public:
 	
 	~Scene() = default;
 	
-	inline void update() {
+	inline void update(float time) {
 		if (m_objects.size() == 0) {
 			return;
 		}
 		
 		for (size_t i = 0; i < m_objects.size(); ++i) {
-			m_objects.at(i)->update();
+			m_objects.at(i)->update(time);
 		}
 		
 		//check collision and remove destroyed objects

@@ -20,7 +20,7 @@ void Enemy::on_draw(sf::RenderWindow & render) {
 	render.draw(shape());
 }
 
-void Enemy::on_update() {
+void Enemy::on_update(float time) {
 	sf::Vector2f pos = get_position();
 	
 	if ((pos.x <= m_target_pos.x + m_offset.x && m_direction == true) ||
@@ -30,7 +30,7 @@ void Enemy::on_update() {
 		m_offset.x *= (-1);
 		pos.y += m_offset.y;
 	} else {
-		pos.x += m_direction == true ? -0.05f : 0.05f;
+		pos.x += time * (m_direction == true ? -0.1f : 0.1f);
 	}
 	
 	set_position(pos);

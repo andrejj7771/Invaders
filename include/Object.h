@@ -46,14 +46,14 @@ public:
 		on_draw(render);
 	}
 	
-	inline void update() {
+	inline void update(float time) {
 		if (m_need_destroy == true ||
 				m_visible == false)
 		{
 			return;
 		}
 		
-		on_update();
+		on_update(time);
 	}
 	
 	inline void destroy() {
@@ -140,7 +140,7 @@ protected:
 	virtual void on_collision(obj_t type) = 0;
 	virtual void on_draw(sf::RenderWindow & render) = 0;
 	virtual void on_destroy() {}
-	virtual void on_update() = 0;
+	virtual void on_update(float time) = 0;
 	
 };
 

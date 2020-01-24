@@ -15,7 +15,7 @@ public:
 	void on_draw(sf::RenderWindow & window) override;
 	void on_destroy() override;
 	void on_collision(obj_t type) override;
-	void on_update() override;
+	void on_update(float time) override;
 	
 };
 

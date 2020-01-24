@@ -17,7 +17,7 @@ void Bullet::on_collision(obj_t type) {
 	}
 }
 
-void Bullet::on_update() {
+void Bullet::on_update(float time) {
 	const sf::Vector2f & pos = get_position();
 	
 	if (pos.y < 0) {
@@ -25,6 +25,6 @@ void Bullet::on_update() {
 		return;
 	}
 	
-	const sf::Vector2f new_pos(pos.x, pos.y - 0.15f);
+	const sf::Vector2f new_pos(pos.x, pos.y - 0.4f * time);
 	set_position(new_pos);
 }
