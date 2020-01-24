@@ -1,10 +1,9 @@
 #include "Bullet.h"
 
 Bullet::Bullet(const sf::Vector2f & pos) :
-    Object(obj_t::bullet)
+    Object(obj_t::bullet, pos)
 {
 	set_size(sf::Vector2f(8, 15));
-	set_position(pos);
 	set_fill_color(sf::Color::Red);
 }
 

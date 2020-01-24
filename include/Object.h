@@ -27,7 +27,7 @@ class Object {
 	
 public:
 	
-	Object(obj_t type);
+	Object(obj_t type, const sf::Vector2f & pos = {0, 0});
 	virtual ~Object() = default;
 	
 	inline const sf::RectangleShape & shape() const {

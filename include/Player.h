@@ -9,7 +9,7 @@ class Player : public Object {
 	
 public:
 	
-	Player();
+	Player(const sf::Vector2f & pos = {0, 0});
 	~Player() override = default;
 	
 	void on_draw(sf::RenderWindow & window) override;
