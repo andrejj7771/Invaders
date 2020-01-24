@@ -23,14 +23,16 @@ class Object {
 	bool m_visible;
 	bool m_need_destroy;
 	
-protected:
-	
 	sf::RectangleShape m_shape;
 	
 public:
 	
 	Object(obj_t type);
 	virtual ~Object() = default;
+	
+	inline const sf::RectangleShape & shape() const {
+		return m_shape;
+	}
 	
 	inline void draw(sf::RenderWindow & render) {
 		if (m_visible == false) {
@@ -61,7 +63,7 @@ public:
 		return m_need_destroy;
 	}
 	
-	inline void set_visible(bool visible) {
+	inline void set_visible(bool visible = true) {
 		m_visible = visible;
 	}
 	
@@ -69,17 +71,25 @@ public:
 		return m_visible;
 	}
 	
-	inline bool check_collision(const ObjectPtr & object) const {
-		assert(object == nullptr);
+	inline bool check_collision(const ObjectPtr & object) {
+		assert(object != nullptr);
 		
-		return false;
+		sf::Rect<float> rect_1(get_position(), get_size());
+		sf::Rect<float> rect_2(object->get_position(), object->get_size());
+		
+		bool is_intersects = rect_1.intersects(rect_2);
+		if (is_intersects) {
+			on_collision(object->get_type());
+		}
+		
+		return is_intersects;
 	}
 	
 	inline obj_t get_type() const {
 		return m_type;
 	}
 	
-	inline void set_size(const sf::Vector2f & size) {
+	inline void set_size(const sf::Vector2f & size = {50, 50}) {
 		m_shape.setSize(size);
 	}
 	
@@ -87,7 +97,7 @@ public:
 		return m_shape.getSize();
 	}
 	
-	inline void set_position(const sf::Vector2f & pos) {
+	inline void set_position(const sf::Vector2f & pos = {0, 0}) {
 		m_shape.setPosition(pos);
 	}
 	
@@ -95,7 +105,7 @@ public:
 		return m_shape.getPosition();
 	}
 	
-	inline void set_scale(const sf::Vector2f & factor) {
+	inline void set_scale(const sf::Vector2f & factor = {1, 1}) {
 		m_shape.setScale(factor);
 	}
 	
@@ -103,7 +113,7 @@ public:
 		return m_shape.getScale();
 	}
 	
-	inline void set_fill_color(const sf::Color & color) {
+	inline void set_fill_color(const sf::Color & color = sf::Color::White) {
 		m_shape.setFillColor(color);
 	}
 	
@@ -121,7 +131,7 @@ public:
 	
 protected:
 	
-	virtual void on_collision(ObjectPtr & destroy) = 0;
+	virtual void on_collision(obj_t type) = 0;
 	virtual void on_draw(sf::RenderWindow & render) = 0;
 	virtual void on_destroy() {}
 	virtual void on_update() = 0;

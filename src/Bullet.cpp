@@ -9,12 +9,11 @@ Bullet::Bullet(const sf::Vector2f & pos) :
 }
 
 void Bullet::on_draw(sf::RenderWindow & render) {
-	render.draw(m_shape);
+	render.draw(shape());
 }
 
-void Bullet::on_collision(ObjectPtr & obj) {
-	if (obj->get_type() == obj_t::enemy) {
-		obj->destroy();
+void Bullet::on_collision(obj_t type) {
+	if (type == obj_t::enemy) {
 		destroy();
 	}
 }

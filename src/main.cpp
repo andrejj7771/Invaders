@@ -2,16 +2,20 @@
 
 #include "Scene.h"
 #include "Player.h"
+#include "Enemy.h"
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Invaders");
 	
-	ScenePtr scene = std::make_shared<Scene>();
-	scene->add_object(std::make_shared<Player>());
+	Scene & scene = Scene::instance();
+	scene.add_object(std::make_shared<Player>());
+	
+	ObjectPtr enemy = std::make_shared<Enemy>(sf::Vector2f(375, 0));
+	
+	scene.add_object(enemy);
 	
 	while(window.isOpen()) {
-		
-		scene->update();
+		scene.update();
 		
 		sf::Event event;
 		while(window.pollEvent(event)) {
@@ -20,11 +24,10 @@ int main() {
 			}
 		}
 		
-		scene->draw(window);
+		scene.draw(window);
 	}
 	
-	scene->destroy();
-	scene = nullptr;
+	scene.destroy();
 	
 	return 0;
 }

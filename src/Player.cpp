@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Bullet.h"
+#include "Scene.h"
 
 Player::Player() :
     Object (obj_t::player)
@@ -10,7 +11,7 @@ Player::Player() :
 }
 
 void Player::on_draw(sf::RenderWindow & window) {
-	window.draw(m_shape);
+	window.draw(shape());
 	
 	if (bullet != nullptr) {
 		bullet->draw(window);
@@ -23,8 +24,8 @@ void Player::on_destroy() {
 	}
 }
 
-void Player::on_collision(ObjectPtr & obj) {
-	if (obj->get_type() == obj_t::enemy) {
+void Player::on_collision(obj_t type) {
+	if (type == obj_t::enemy) {
 		printf("Game Over!!!\n");
 	}
 }
@@ -59,9 +60,8 @@ void Player::on_update() {
 		const sf::Vector2f new_pos(pos.x + 21, pos.y - 25);
 		
 		if (bullet == nullptr || bullet->is_destroyed() == true) {
-			bullet = nullptr;
 			bullet = std::make_shared<Bullet>(new_pos);
-			bullet->update();
+			Scene::instance().add_object(bullet);
 			return;
 		}
 		

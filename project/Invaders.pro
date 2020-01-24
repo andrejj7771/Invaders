@@ -8,8 +8,6 @@ DESTDIR = ../bin
 LIBS +=  -lsfml-graphics
 LIBS +=  -lsfml-window
 LIBS +=  -lsfml-system
-LIBS +=  -logg
-LIBS +=  -lopenal32
 LIBS +=  -lsfml-audio
 
 INCLUDEPATH += ../include

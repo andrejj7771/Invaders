@@ -9,9 +9,17 @@ class Scene {
 	
 	bool m_need_destroy;
 	
-public:
+private:
 	
 	Scene();
+	
+	Scene(Scene & scene) = delete;
+	Scene & operator=(const Scene & scene) = delete;
+	
+public:
+	
+	static Scene & instance();
+	
 	~Scene() = default;
 	
 	inline void update() {
@@ -19,8 +27,8 @@ public:
 			return;
 		}
 		
-		for (auto & obj : m_objects) {
-			obj->update();
+		for (size_t i = 0; i < m_objects.size(); ++i) {
+			m_objects.at(i)->update();
 		}
 		
 		//check collision and remove destroyed objects
@@ -89,7 +97,7 @@ public:
 	}
 	
 	inline void rem_object(const ObjectPtr & obj) {
-		assert(obj == nullptr);
+		assert(obj != nullptr);
 		
 		auto obj_iterator = std::find(m_objects.begin(), m_objects.end(), obj);
 		assert(obj_iterator == m_objects.end());
@@ -99,7 +107,7 @@ public:
 	}
 	
 	void rem_object(size_t index) {
-		assert(index >= m_objects.size());
+		assert(index < m_objects.size());
 		
 		auto obj_iterator = m_objects.begin() + static_cast<long long>(index);
 		m_objects.erase(obj_iterator);
@@ -111,7 +119,5 @@ public:
 	}
 	
 };
-
-typedef std::shared_ptr<Scene> ScenePtr;
 
 #endif //SCENE_H
