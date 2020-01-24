@@ -6,7 +6,6 @@ Player::Player(const sf::Vector2f & pos) :
     Object (obj_t::player, pos)
 {
 	set_size(sf::Vector2f(50, 50));
-	set_position(sf::Vector2f(375, 525));
 	set_fill_color(sf::Color::White);
 }
 
