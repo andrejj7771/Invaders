@@ -12,7 +12,7 @@ int main() {
 	
 	Scene & scene = Scene::instance();
 	
-	LevelManagerPtr level_manager = scene.get_level_manager();
+	LevelManagerPtr level_manager = std::make_shared<LevelManager>();
 	
 	LevelPtr level = std::make_shared<Level>("test_level_1");
 	level->create_player(sf::Vector2f(375, 0));
@@ -39,7 +39,10 @@ int main() {
 	level_manager->add_level(level);
 	
 	while(window.isOpen()) {
-		scene.update();
+		level_manager->update();
+		if (level_manager->is_end() == false) {
+			scene.update();
+		}
 		
 		sf::Event event;
 		while(window.pollEvent(event)) {
@@ -51,6 +54,7 @@ int main() {
 		scene.draw(window);
 	}
 	
+	level_manager->destroy();
 	scene.destroy();
 	
 	return 0;

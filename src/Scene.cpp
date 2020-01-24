@@ -1,8 +1,6 @@
 #include "Scene.h"
 
-Scene::Scene() :
-	m_level_manager(std::make_shared<LevelManager>())
-{
+Scene::Scene() {
 	m_need_destroy = false;
 }
 

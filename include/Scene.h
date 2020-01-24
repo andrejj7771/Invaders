@@ -7,8 +7,6 @@ typedef std::shared_ptr<LevelManager> LevelManagerPtr;
 
 class Scene {
 	
-	LevelManagerPtr m_level_manager;
-	
 	std::vector<ObjectPtr> m_objects;
 	
 	bool m_need_destroy;
@@ -28,13 +26,6 @@ public:
 	
 	inline void update() {
 		if (m_objects.size() == 0) {
-			return;
-		}
-		
-		m_level_manager->update();
-		
-		// stop the game if there is no more levels
-		if (m_level_manager->is_end()) {
 			return;
 		}
 		
@@ -127,10 +118,6 @@ public:
 	
 	inline size_t get_num_objects() const {
 		return m_objects.size();
-	}
-	
-	inline LevelManagerPtr get_level_manager() const {
-		return m_level_manager;
 	}
 	
 };
