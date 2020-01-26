@@ -13,14 +13,7 @@ int main() {
 	Scene & scene = Scene::instance();
 	
 	LevelManagerPtr level_manager = std::make_shared<LevelManager>();
-	
-	LevelPtr level = std::make_shared<Level>("");
-	level->load_from_file("/home/andrey/Invaders/data/levels/level1.lvl");
-	level_manager->add_level(level);
-	
-	level = std::make_shared<Level>("");
-	level->load_from_file("/home/andrey/Invaders/data/levels/level2.lvl");
-	level_manager->add_level(level);
+	level_manager->load_levels_from_files("../data/levels");
 	
 	sf::Clock clock;
 	

@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <memory>
 #include <vector>
+#include <string.h>
+#include <dirent.h>
 
 #include "Level.h"
 
@@ -119,6 +121,31 @@ public:
 	
 	inline bool is_end() const {
 		return !m_need_update;
+	}
+	
+	inline void load_levels_from_files(const std::string & path) {
+		assert(path.empty() == false);
+		
+		DIR * levels_dir = opendir(path.data());
+		assert(levels_dir != nullptr);
+		
+		struct dirent * current_dir = nullptr;
+		while((current_dir = readdir(levels_dir)) != nullptr) {
+			if (strcmp(current_dir->d_name, ".") == 0 ||
+					strcmp(current_dir->d_name, "..") == 0)
+			{
+				continue;
+			}
+			
+			std::string level_path = path + '/' + current_dir->d_name;
+			LevelPtr level = std::make_shared<Level>();
+			if (level->load_from_file(level_path) == false) {
+				printf("%s -> can't load level.\n path: %s\n",
+					   __FUNCTION__, level_path.data());
+				continue;
+			}
+			add_level(level);
+		}
 	}
 	
 };

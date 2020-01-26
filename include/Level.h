@@ -31,7 +31,7 @@ class Level {
 	
 public:
 	
-	Level(const std::string & level_name);
+	Level(const std::string & level_name = "");
 	~Level() = default;
 	
 	inline void update() {
