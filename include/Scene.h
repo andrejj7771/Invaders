@@ -102,7 +102,7 @@ public:
 		assert(obj != nullptr);
 		
 		auto obj_iterator = std::find(m_objects.begin(), m_objects.end(), obj);
-		assert(obj_iterator == m_objects.end());
+		assert(obj_iterator != m_objects.end());
 		
 		m_objects.erase(obj_iterator);
 		obj->destroy();
