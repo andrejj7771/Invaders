@@ -24,8 +24,8 @@ class Level {
 	bool m_need_destroy;
 	bool m_is_won;
 	bool m_is_failed;
+	bool m_is_loaded;
 	
-	bool m_is_disable;
 	
 	std::string m_level_name;
 	
@@ -69,6 +69,10 @@ public:
 		return m_is_failed;
 	}
 	
+	inline bool is_loaded() const {
+		return m_is_loaded;
+	}
+	
 	void create_player(const sf::Vector2f & pos);
 	
 	inline const ObjectPtr & get_player() const {
@@ -76,6 +80,10 @@ public:
 	}
 	
 	void add_enemy(const sf::Vector2f & pos);
+	
+	void load_level();
+	
+	void load_out_level();
 	
 	inline void destroy() {
 		if (m_need_destroy == true) {
@@ -96,20 +104,6 @@ public:
 	
 	inline bool is_destroyed() {
 		return m_need_destroy;
-	}
-	
-	inline void set_enable(bool value) {
-		m_is_disable = !value;
-		
-		for (auto enemy : m_enemies) {
-			enemy->set_visible(value);
-		}
-		
-		m_player->set_visible(value);
-	}
-	
-	inline bool is_enabled() const {
-		return m_is_disable;
 	}
 	
 	inline bool load_from_file(const std::string & path) {
@@ -151,8 +145,8 @@ public:
 			}
 		}
 		
-		
-		return false;
+		file_stream.close();
+		return true;
 	}
 	
 	inline const std::string & get_level_name() const {

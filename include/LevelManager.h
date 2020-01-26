@@ -58,7 +58,7 @@ public:
 		
 		if (m_current_level == nullptr) {
 			m_current_level = *m_level_list.begin();
-			m_current_level->set_enable(true);
+			m_current_level->load_level();
 		}
 		
 		m_current_level->update();
@@ -85,9 +85,9 @@ public:
 			m_need_update = false;
 			printf("You win!!!\n");
 		} else {
-			m_current_level->set_enable(false);
+			m_current_level->load_out_level();
 			m_current_level = *(iterator + 1);
-			m_current_level->set_enable(true);
+			m_current_level->load_level();
 		}
 	}
 	
