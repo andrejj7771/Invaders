@@ -28,3 +28,5 @@ SOURCES += ../src/Player.cpp
 SOURCES += ../src/Bullet.cpp
 SOURCES += ../src/Enemy.cpp
 SOURCES += ../src/main.cpp
+
+OTHER_FILES += ../TODO.txt

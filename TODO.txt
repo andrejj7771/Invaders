@@ -1,0 +1,21 @@
+change logic of enemies moving
+enemies can shoot too
+
+implement resource system
+	- load textures
+	- load sound and music
+
+implement graphics system
+	- create background
+	- use textures instead of solid colors
+	- create particles ???
+
+implement animation system
+	- looped frame sequences
+
+implement sound system
+	- play music (ambient)
+	- play sounds (something like an explosions, shot sound, etc.)
+
+implement gui system
+	- simple widgets (button, label)
