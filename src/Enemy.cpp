@@ -6,8 +6,7 @@ Enemy::Enemy(const sf::Vector2f & pos) :
 	m_offset(sf::Vector2f(-100, 50))
 {
 	m_direction = true;
-	set_size(sf::Vector2f(50, 50));
-	set_fill_color(sf::Color::Blue);
+	set_size(sf::Vector2f(33, 24));
 }
 
 void Enemy::on_collision(obj_t type) {

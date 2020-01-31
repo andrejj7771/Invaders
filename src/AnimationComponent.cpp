@@ -1,4 +1,5 @@
 #include "AnimationComponent.h"
+#include "Object.h"
 
 #include <algorithm>
 
@@ -23,7 +24,7 @@ void Frame::set_texture(const sf::Image & texture,
 }
 
 Animation::Animation(const std::string & name,
-					 int delay) :
+					 float delay) :
 	m_name(name),
 	m_current_frame(nullptr)
 {
@@ -121,12 +122,12 @@ void Animation::stop() {
 	m_is_playing = false;
 }
 
-void Animation::update() {
-	if (!m_is_playing == false) {
+void Animation::update(float time) {
+	if (m_is_playing == false) {
 		return;
 	}
 	
-	if (m_current_time > m_delay) {
+	if (m_current_time >= m_delay) {
 		if (m_is_reversed == false) {
 			++m_current_index;
 		} else {
@@ -136,7 +137,7 @@ void Animation::update() {
 		m_current_time = 0;
 	}
 	
-	++m_current_time;
+	m_current_time += time;
 	
 	if (m_is_reversed == false) {
 		if (m_current_index >= get_num_frames()) {
@@ -187,5 +188,38 @@ void Animation::prev() {
 		
 		m_current_frame = m_frames.at(m_current_index);
 	
+}
+
+AnimationManager::AnimationManager(Object * object) :
+	Component(object, "AnimationManager", component_t::animation),
+	m_current_animation(nullptr)
+{}
+
+AnimationManager::AnimationManager(const ObjectPtr & object) :
+	Component(object, "AnimationManager", component_t::animation),
+	m_current_animation(nullptr)
+{}
+
+AnimationManager::~AnimationManager() {
+	on_destroy();
+}
+
+void AnimationManager::on_update(float time) {
+	if (m_current_animation == nullptr) {
+		return;
+	}
+	
+	m_current_animation->update(time);
+	const auto & texture = m_current_animation->get_current_frame();
+	get_target()->set_texture(texture);
+}
+
+void AnimationManager::on_destroy() {
+	m_current_animation = nullptr;
+	for (auto & a : m_animations) {
+		a = nullptr;
+	}
+	
+	m_animations.clear();
 }
 

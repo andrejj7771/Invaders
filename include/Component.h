@@ -6,6 +6,7 @@
 #include <string>
 
 class Object;
+typedef std::shared_ptr<Object> ObjectPtr;
 
 enum class component_t : char {
 	animation = 0,
@@ -19,9 +20,14 @@ class Component {
 	
 	component_t m_type;
 	
+	bool m_need_destroy;
+	
 public:
 	
 	Component(Object * target,
+			  const std::string & name,
+			  component_t type);
+	Component(const ObjectPtr & target,
 			  const std::string & name,
 			  component_t type);
 	virtual ~Component();
@@ -34,14 +40,33 @@ public:
 		return m_target;
 	}
 	
-	inline void update() {
-		assert(m_target != nullptr);
-		on_update();
+	inline component_t get_type() const {
+		return m_type;
 	}
+	
+	inline Object * get_target() const {
+		return m_target;
+	}
+	
+	inline void update(float time) {
+		assert(m_target != nullptr);
+		on_update(time);
+	}
+	
+	inline void destroy() {
+		if (m_need_destroy == true) {
+			return;
+		}
+		
+		m_need_destroy = true;
+		on_destroy();
+	}
+	
 	
 protected:
 	
-	virtual void on_update() = 0;
+	virtual void on_update(float time) = 0;
+	virtual void on_destroy() = 0;
 	
 };
 

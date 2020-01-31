@@ -3,8 +3,11 @@
 
 #include <cassert>
 #include <memory>
+#include <vector>
 
 #include <SFML/Graphics.hpp>
+
+#include "Component.h"
 
 enum class obj_t : uint8_t {
 	object = 0,
@@ -16,6 +19,8 @@ enum class obj_t : uint8_t {
 class Object;
 typedef std::shared_ptr<Object> ObjectPtr;
 
+typedef std::shared_ptr<Component> ComponentPtr;
+
 class Object {
 	
 	obj_t m_type;
@@ -24,6 +29,8 @@ class Object {
 	bool m_need_destroy;
 	
 	sf::RectangleShape m_shape;
+	
+	std::vector<ComponentPtr> m_components;
 	
 public:
 	
@@ -51,6 +58,10 @@ public:
 				m_visible == false)
 		{
 			return;
+		}
+		
+		for (auto component : m_components) {
+			component->update(time);
 		}
 		
 		on_update(time);
@@ -133,6 +144,72 @@ public:
 	
 	inline const sf::Texture & get_texture() const {
 		return *m_shape.getTexture();
+	}
+	
+	inline bool add_component(const ComponentPtr & component) {
+		if (has_component(component->get_type())) {
+			printf("%s -> the object already has the same component.\n",
+				   __FUNCTION__);
+			return false;
+		}
+		
+		m_components.push_back(component);
+		return true;
+	}
+	
+	ComponentPtr add_component(component_t type);
+	
+	inline bool has_component(component_t type) const {
+		auto find_predicate = [type](const ComponentPtr & c)
+		{
+			return c->get_type() == type;
+		};
+		
+		auto c_iterator = std::find_if(m_components.begin(),
+									   m_components.end(),
+									   find_predicate);
+		
+		return c_iterator != m_components.end();
+	}
+	
+	inline ComponentPtr get_component(component_t type) {
+		auto find_predicate = [type](const ComponentPtr & c)
+		{
+			return c->get_type() == type;
+		};
+		
+		auto c_iterator = std::find_if(m_components.begin(),
+									   m_components.end(),
+									   find_predicate);
+		
+		if (c_iterator == m_components.end()) {
+			return nullptr;
+		}
+		
+		return *c_iterator;
+	}
+	
+	inline void rem_component(const ComponentPtr & component) {
+		rem_component(component->get_type());
+	}
+	
+	inline void rem_component(component_t type) {
+		auto find_predicate = [type](const ComponentPtr & c)
+		{
+			return c->get_type() == type;
+		};
+		
+		auto c_iterator = std::find_if(m_components.begin(),
+									   m_components.end(),
+									   find_predicate);
+		
+		if (c_iterator != m_components.end()) {
+			m_components.erase(c_iterator);
+		}
+	}
+	
+	inline size_t get_num_components() const {
+		return m_components.size();
 	}
 	
 protected:

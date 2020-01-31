@@ -47,15 +47,15 @@ class Animation {
 	bool m_is_looped;
 	bool m_is_interruptible;
 	
-	int m_delay;
-	int m_current_time;
+	float m_delay;
+	float m_current_time;
 	
 	dir_type m_direction;
 	
 public:
 	
 	Animation(const std::string & name,
-			  int delay = 5);
+			  float delay = 250);
 	Animation(const Animation & animation);
 	~Animation();
 	
@@ -115,12 +115,16 @@ public:
 		return m_direction;
 	}
 	
+	inline const sf::Texture & get_current_frame() const {
+		return m_current_frame->get_texture();
+	}
+	
 	void append_frame(const FramePtr & frame);
 	void remove_frame(size_t index);
 	
 	void play();
 	void stop();
-	void update();
+	void update(float time);
 	
 private:
 	
@@ -129,9 +133,114 @@ private:
 	
 };
 
+typedef std::shared_ptr<Animation> AnimationPtr;
+
 class AnimationManager : public Component {
 	
+	std::vector<AnimationPtr> m_animations;
+	AnimationPtr m_current_animation;
 	
+public:
+	
+	AnimationManager(Object * object);
+	AnimationManager(const ObjectPtr & object);
+	~AnimationManager() override;
+	
+	inline void append_animation(const AnimationPtr & anim) {
+		assert(anim != nullptr);
+		
+		auto a_iterator = std::find(m_animations.begin(),
+									m_animations.end(),
+									anim);
+		
+		if (a_iterator != m_animations.end()) {
+			printf("%s -> the component already contains this animation",
+				   __FUNCTION__);
+			
+			return;
+		}
+		
+		m_animations.push_back(anim);
+	}
+	
+	inline void remove_animation(const AnimationPtr & anim) {
+		assert(anim != nullptr);
+		
+		auto a_iterator = std::find(m_animations.begin(),
+									m_animations.end(),
+									anim);
+		
+		if (a_iterator == m_animations.end()) {
+			return;
+		}
+		
+		m_animations.erase(a_iterator);
+		*a_iterator = nullptr;
+	}
+	
+	inline void remove_animation(size_t index) {
+		assert(index < m_animations.size());
+		
+		auto a_iterator = m_animations.begin() + static_cast<unsigned>(index);
+		m_animations.erase(a_iterator);
+		*a_iterator = nullptr;
+	}
+	
+	inline size_t get_num_animations() const {
+		return m_animations.size();
+	}
+	
+	inline AnimationPtr get_animation(const std::string & name) {
+		assert(name.empty() == false);
+		
+		auto predicate = [name](const AnimationPtr & anim)
+		{
+			return anim->get_name() == name;
+		};
+		
+		auto a_iterator = std::find_if(m_animations.begin(), m_animations.end(), predicate);
+		if (a_iterator == m_animations.end()) {
+			return nullptr;
+		}
+		
+		return *a_iterator;
+	}
+	
+	inline const AnimationPtr & get_animation(size_t index) {
+		assert(index < m_animations.size());
+		
+		auto a_iterator = m_animations.begin() + static_cast<unsigned>(index);
+		return *a_iterator;
+	}
+	
+	inline void set_current_animation(size_t index) {
+		assert(index < m_animations.size());
+		
+		m_current_animation = m_animations.at(index);
+	}
+	
+	inline void set_current_animation(const std::string & name) {
+		const AnimationPtr & animation = get_animation(name);
+		
+		if (animation != nullptr) {
+			m_current_animation = animation;
+		}
+	}
+	
+	inline std::vector<std::string> get_anim_list() const {
+		std::vector<std::string> names;
+		
+		for (auto anim : m_animations) {
+			names.push_back(anim->get_name());
+		}
+		
+		return names;
+	}
+	
+protected:
+	
+	void on_update(float time) override;
+	void on_destroy() override;
 	
 };
 
