@@ -30,15 +30,7 @@ public:
 		m_factory[type] = factory_func;
 	}
 	
-	static ComponentPtr create(component_t type, Object * owner) {
-		auto iterator = m_factory.find(type);
-		if (iterator == m_factory.end()) {
-			printf("%s -> component unregistered.\n", __FUNCTION__);
-			return nullptr;
-		}
-		
-		return iterator->second(owner);
-	}
+	static ComponentPtr create(component_t type, Object * owner);
 };
 
 #endif //COMPONENT_FACTORY

@@ -25,7 +25,7 @@ HEADERS += ../include/Bullet.h
 HEADERS += ../include/Enemy.h
 
 SOURCES += ../src/Component.cpp
-SOURCES +=
+SOURCES += ../src/ComponentFactory.cpp
 SOURCES += ../src/AnimationComponent.cpp
 
 SOURCES += ../src/Scene.cpp

@@ -10,6 +10,8 @@
 #include "LevelManager.h"
 
 int main() {
+	ComponentFactory::register_component<AnimationManager>(component_t::animation);
+	
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Invaders");
 	
 	Scene & scene = Scene::instance();
