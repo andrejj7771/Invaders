@@ -195,11 +195,6 @@ AnimationManager::AnimationManager(Object * object) :
 	m_current_animation(nullptr)
 {}
 
-AnimationManager::AnimationManager(const ObjectPtr & object) :
-	Component(object, "AnimationManager", component_t::animation),
-	m_current_animation(nullptr)
-{}
-
 AnimationManager::~AnimationManager() {
 	on_destroy();
 }
@@ -211,7 +206,7 @@ void AnimationManager::on_update(float time) {
 	
 	m_current_animation->update(time);
 	const auto & texture = m_current_animation->get_current_frame();
-	get_target()->set_texture(texture);
+	get_owner()->set_texture(texture);
 }
 
 void AnimationManager::on_destroy() {
