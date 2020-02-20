@@ -1,4 +1,4 @@
-#include "Object.h"
+#include "Objects/Object.h"
 
 Object::Object(obj_t type, const sf::Vector2f & pos) {
 	m_type = type;

@@ -1,13 +1,17 @@
 #include <iostream>
 
 #include "Scene.h"
-#include "Player.h"
-#include "Enemy.h"
+#include "Objects/Player.h"
+#include "Objects/Enemy.h"
+
+#include "Components/AnimationComponent.h"
 
 #include "Level.h"
 #include "LevelManager.h"
 
 int main() {
+	ComponentFactory::register_component<AnimationManager>(component_t::animation);
+	
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Invaders");
 	
 	Scene & scene = Scene::instance();
@@ -16,6 +20,11 @@ int main() {
 	level_manager->load_levels_from_files("../data/levels");
 	
 	sf::Clock clock;
+	
+	sf::Image img;
+	if (img.loadFromFile("/home/nag/Pictures/54.png") == false) {
+		return -1;
+	}
 	
 	while(window.isOpen()) {
 		float time = clock.getElapsedTime().asMicroseconds();

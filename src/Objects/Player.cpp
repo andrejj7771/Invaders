@@ -1,5 +1,6 @@
-#include "Player.h"
-#include "Bullet.h"
+#include "Objects/Player.h"
+#include "Objects/Bullet.h"
+
 #include "Scene.h"
 
 Player::Player(const sf::Vector2f & pos) :
