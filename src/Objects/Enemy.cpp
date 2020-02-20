@@ -1,4 +1,4 @@
-#include "Enemy.h"
+#include "Objects/Enemy.h"
 
 Enemy::Enemy(const sf::Vector2f & pos) :
 	Object(obj_t::enemy, pos),

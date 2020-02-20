@@ -7,8 +7,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Component.h"
-#include "ComponentFactory.h"
+#include "Components/Component.h"
+#include "Components/ComponentFactory.h"
 
 enum class obj_t : uint8_t {
 	object = 0,

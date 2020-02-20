@@ -1,8 +1,8 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
-#include "Player.h"
-#include "Enemy.h"
+#include "Objects/Player.h"
+#include "Objects/Enemy.h"
 
 #include <SFML/Graphics.hpp>
 

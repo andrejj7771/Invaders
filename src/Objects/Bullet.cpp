@@ -1,4 +1,4 @@
-#include "Bullet.h"
+#include "Objects/Bullet.h"
 
 Bullet::Bullet(const sf::Vector2f & pos) :
     Object(obj_t::bullet, pos)
