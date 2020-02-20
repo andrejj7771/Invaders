@@ -14,7 +14,8 @@ enum class obj_t : uint8_t {
 	object = 0,
 	player = 1,
 	enemy = 2,
-	bullet = 3
+	bullet = 3,
+	gui = 4
 };
 
 class Object;

@@ -22,6 +22,8 @@ HEADERS += ../include/Objects/Player.h
 HEADERS += ../include/Objects/Bullet.h
 HEADERS += ../include/Objects/Enemy.h
 
+HEADERS += ../include/GUI/GObject.h
+
 HEADERS += ../include/Scene.h
 HEADERS += ../include/Level.h
 HEADERS += ../include/LevelManager.h
@@ -35,6 +37,8 @@ SOURCES += ../src/Objects/Object.cpp
 SOURCES += ../src/Objects/Player.cpp
 SOURCES += ../src/Objects/Bullet.cpp
 SOURCES += ../src/Objects/Enemy.cpp
+
+SOURCES += ../src/GUI/GObject.cpp
 
 SOURCES += ../src/Scene.cpp
 SOURCES += ../src/Level.cpp
