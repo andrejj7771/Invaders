@@ -14,7 +14,7 @@ namespace GUI {
 	{
 		m_gui_type = gObj_t::button;
 		m_is_stay = false;
-		m_pressed = false;
+		m_is_pressed = false;
 	}
 	
 	void Button::on_draw(sf::RenderWindow & window) {
@@ -31,28 +31,28 @@ namespace GUI {
 		const sf::Vector2f & size = get_size();
 		
 		bool x = false;
-		bool y = false;
-		
 		if (delta_pos.x >= pos.x && delta_pos.x <= pos.x + size.x) {
 			x = true;
 		}
 		
+		bool y = false;
 		if (delta_pos.y >= pos.y && delta_pos.y <= pos.y + size.y) {
 			y = true;
 		}
 		
 		if (x && y) {
 			if (m_is_stay == false) {
-				m_is_stay = true;
 				m_mouse_enter_handler();
 			}
 			
-			if (m_is_stay) {
-				m_mouse_stay_handler(delta_pos);
+			m_is_stay = true;
+			m_mouse_stay_handler({static_cast<float>(mouse_pos.x),
+								  static_cast<float>(mouse_pos.y)});
+		} else {
+			if (m_is_stay == true) {
+				m_mouse_exit_handler();
 			}
-		} else if ((!x || !y) && m_is_stay){
 			m_is_stay = false;
-			m_mouse_exit_handler();
 		}
 	}
 	
@@ -61,9 +61,7 @@ namespace GUI {
 	void Button::on_update(float time) {
 		Label::on_update(time);
 		
-		m_event.last_button = m_event.current_button;
-		
-		if (m_is_stay) {
+		if (m_is_stay == true && m_is_pressed == false) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 				mouse_press(sf::Mouse::Left);
 			} else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
@@ -71,12 +69,6 @@ namespace GUI {
 			} else if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
 				mouse_press(sf::Mouse::Middle);
 			}
-			
-			return;
-		}
-		
-		if (m_pressed) {
-			mouse_release(m_event.last_button);
 		}
 	}
 	

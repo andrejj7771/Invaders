@@ -10,9 +10,10 @@ namespace GUI {
 	
 	class Button : public Label {
 		
-		bool m_is_stay;
-		bool m_pressed;
 		GUIEvent m_event;
+		
+		bool m_is_stay;
+		bool m_is_pressed;
 		
 		std::function<void()> m_mouse_enter_handler;
 		std::function<void()> m_mouse_exit_handler;
@@ -52,15 +53,15 @@ namespace GUI {
 	private:
 		
 		inline void mouse_press(sf::Mouse::Button button) {
-			if (m_pressed == false) {
-				m_pressed = true;
-				m_mouse_press_handler(button);
-			}
+			m_event.current_button = button;
+			m_is_pressed = true;
+			m_mouse_press_handler(button);
 		}
 		
 		inline void mouse_release(sf::Mouse::Button button) {
 			m_mouse_release_handler(button);
-			m_pressed = false;
+			m_is_pressed = false;
+			m_event.current_button = sf::Mouse::ButtonCount;
 		}
 		
 	};
