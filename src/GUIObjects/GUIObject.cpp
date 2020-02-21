@@ -10,11 +10,11 @@ namespace GUI {
 	GUIObject::GUIObject(gObj_t type,
 			  const sf::Vector2f & pos) :
 		Object(obj_t::gui_object, pos),
-		m_mouse_enter_handler([](){ printf("MouseEnter default callback\n"); }),
-		m_mouse_exit_handler([](){ printf("MouseExit default callback\n"); }),
-		m_mouse_stay_handler([](const sf::Vector2f &){ printf("MouseStay default callback\n"); }),
-		m_mouse_press_handler([](sf::Mouse::Button){ printf("MousePress default callback\n"); }),
-		m_mouse_release_handler([](sf::Mouse::Button){ printf("MouseRelease default callback\n"); })
+		m_mouse_enter_handler([](){}),
+		m_mouse_exit_handler([](){}),
+		m_mouse_stay_handler([](const sf::Vector2f &){}),
+		m_mouse_press_handler([](sf::Mouse::Button){}),
+		m_mouse_release_handler([](sf::Mouse::Button){})
 	{
 		m_gui_type = type;
 		
