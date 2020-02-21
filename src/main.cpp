@@ -5,11 +5,17 @@
 #include "GameObjects/Enemy.h"
 
 #include "GUIObjects/Label.h"
+#include "GUIObjects/Button.h"
 
 #include "Components/AnimationComponent.h"
 
 #include "Level.h"
 #include "LevelManager.h"
+
+void button_click_callback(sf::Mouse::Button) {
+	static int counter = 0;
+	printf("click %d\n", counter++);
+}
 
 int main() {
 	ComponentFactory::register_component<AnimationManager>(component_t::animation);
@@ -23,10 +29,21 @@ int main() {
 	
 	sf::Clock clock;
 	
-	sf::Image img;
-	if (img.loadFromFile("/home/nag/Pictures/54.png") == false) {
-		return -1;
-	}
+	sf::Font font;
+	font.loadFromFile("../data/fonts/tnr.ttf");
+	
+	GUI::LabelPtr label = std::make_shared<GUI::Label>("Label", font, sf::Vector2f(10, 10));
+	label->set_text_color(sf::Color::Red);
+	label->set_fill_color(sf::Color::Green);
+	
+	GUI::ButtonPtr button = std::make_shared<GUI::Button>("Button", font, sf::Vector2f(10, 50));
+	button->set_text_color(sf::Color::Blue);
+	button->set_fill_color(sf::Color::Green);
+	
+	button->set_mouse_click_callback(std::bind(&::button_click_callback, std::placeholders::_1));
+	
+	scene.append_object(label);
+	scene.append_object(button);
 	
 	while(window.isOpen()) {
 		float time = clock.getElapsedTime().asMicroseconds();

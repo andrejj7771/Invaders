@@ -26,6 +26,7 @@ HEADERS += ../include/GameObjects/Enemy.h
 
 HEADERS += ../include/GUIObjects/GUIObject.h
 HEADERS += ../include/GUIObjects/Label.h
+HEADERS += ../include/GUIObjects/Button.h
 
 HEADERS += ../include/Scene.h
 HEADERS += ../include/Level.h
@@ -45,6 +46,7 @@ SOURCES += ../src/GameObjects/Enemy.cpp
 
 SOURCES += ../src/GUIObjects/GUIObject.cpp
 SOURCES += ../src/GUIObjects/Label.cpp
+SOURCES += ../src/GUIObjects/Button.cpp
 
 SOURCES += ../src/Scene.cpp
 SOURCES += ../src/Level.cpp

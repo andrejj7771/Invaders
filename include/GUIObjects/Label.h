@@ -14,18 +14,15 @@ namespace GUI {
 		
 		uint32_t m_font_size;
 		
-		bool m_need_update;
-		
 	public:
 		
 		Label(const std::string & text,
 			  const sf::Font & font,
 			  const sf::Vector2f & pos = {0, 0});
-		~Label() override = default;
+		virtual ~Label() override = default;
 		
 		inline void set_font(const sf::Font & font) {
 			m_text.setFont(font);
-			m_need_update = true;
 		}
 		
 		inline bool set_font(const std::string & font_file) {
@@ -35,13 +32,11 @@ namespace GUI {
 			}
 			
 			m_text.setFont(font);
-			m_need_update = true;
 			return true;
 		}
 		
 		inline void set_text(const std::string & text) {
 			m_text.setString(sf::String(text));
-			m_need_update = true;
 		}
 		
 		inline const std::string & text() const {
@@ -50,7 +45,6 @@ namespace GUI {
 		
 		inline void set_font_size(uint32_t size) {
 			m_text.setCharacterSize(size);
-			m_need_update = true;
 		}
 		
 		inline uint32_t font_size() const {
@@ -67,7 +61,6 @@ namespace GUI {
 		
 		inline void set_style(uint32_t style) {
 			m_text.setStyle(style);
-			m_need_update = true;
 		}
 		
 		inline uint32_t style_flag() const {
@@ -76,8 +69,9 @@ namespace GUI {
 		
 	protected:
 		
-		virtual void on_gui_update() override;
-		virtual void on_gui_draw(sf::RenderWindow & window) override;
+		virtual void on_destroy() override;
+		virtual void on_update(float time) override;
+		virtual void on_draw(sf::RenderWindow & window) override;
 		
 	};
 	
