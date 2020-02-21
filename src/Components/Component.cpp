@@ -1,4 +1,4 @@
-#include "Component.h"
+#include "Components/Component.h"
 
 Component::Component(Object * target,
 		  const std::string & name,

@@ -11,11 +11,9 @@
 #include "Components/ComponentFactory.h"
 
 enum class obj_t : uint8_t {
-	object = 0,
-	player = 1,
-	enemy = 2,
-	bullet = 3,
-	gui = 4
+	base_object = 0,
+	game_object = 1,
+	gui_object = 2
 };
 
 class Object;
@@ -24,6 +22,11 @@ typedef std::shared_ptr<Object> ObjectPtr;
 typedef std::shared_ptr<Component> ComponentPtr;
 
 class Object {
+	
+	///
+	/// \brief m_id - personal object id
+	///
+	size_t m_id;
 	
 	///
 	/// \brief m_type - object type, see obj_t enum values
@@ -41,19 +44,29 @@ class Object {
 	bool m_need_destroy;
 	
 	///
-	/// \brief m_shape - shape of the object
-	///
-	sf::RectangleShape m_shape;
-	
-	///
 	/// \brief m_components - component list of the object
 	///
 	std::vector<ComponentPtr> m_components;
+	
+protected:
+	
+	///
+	/// \brief m_shape - shape of the object
+	///
+	sf::RectangleShape m_shape;
 	
 public:
 	
 	Object(obj_t type, const sf::Vector2f & pos = {0, 0});
 	virtual ~Object() = default;
+	
+	///
+	/// \brief get_id - getter of object id
+	/// \return value of 'm_id' variable
+	///
+	inline size_t get_id() const {
+		return m_id;
+	}
 	
 	///
 	/// \brief shape - getter of animation shape
@@ -134,29 +147,10 @@ public:
 	}
 	
 	///
-	/// \brief check_collision - collision checker with other object
-	/// \param object - object that will be checked
-	/// \return true if objects are intersected, otherwise - false
-	///
-	inline bool check_collision(const ObjectPtr & object) {
-		assert(object != nullptr);
-		
-		sf::Rect<float> rect_1(get_position(), get_size());
-		sf::Rect<float> rect_2(object->get_position(), object->get_size());
-		
-		bool is_intersects = rect_1.intersects(rect_2);
-		if (is_intersects) {
-			on_collision(object->get_type());
-		}
-		
-		return is_intersects;
-	}
-	
-	///
 	/// \brief get_type - getter of object type
 	/// \return enum value of type
 	///
-	inline obj_t get_type() const {
+	inline obj_t type() const {
 		return m_type;
 	}
 	
@@ -298,12 +292,6 @@ public:
 protected:
 	
 	///
-	/// \brief on_collision - collision solver
-	/// \param type - type of the object that is collided with this object
-	///
-	virtual void on_collision(obj_t type) = 0;
-	
-	///
 	/// \brief on_draw - concrete object drawer
 	/// \param render - instance of the renderer
 	///
@@ -312,7 +300,7 @@ protected:
 	///
 	/// \brief on_destroy - concrete destroyer
 	///
-	virtual void on_destroy() {}
+	virtual void on_destroy() = 0;
 	
 	///
 	/// \brief on_update - concrete updater

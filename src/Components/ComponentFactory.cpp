@@ -1,4 +1,4 @@
-#include "ComponentFactory.h"
+#include "Components/ComponentFactory.h"
 
 std::map<component_t, std::function<ComponentPtr(Object*)>> ComponentFactory::m_factory;
 

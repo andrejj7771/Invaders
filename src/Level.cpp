@@ -16,11 +16,11 @@ void Level::create_player(const sf::Vector2f & pos) {
 		return;
 	}
 	
-	m_player = std::make_shared<Player>(pos);
+	m_player = std::make_shared<Game::Player>(pos);
 }
 
 void Level::add_enemy(const sf::Vector2f & pos) {
-	ObjectPtr enemy = std::make_shared<Enemy>(pos);
+	Game::GameObjectPtr enemy = std::make_shared<Game::Enemy>(pos);
 	m_enemies.push_back(enemy);
 }
 
@@ -33,10 +33,10 @@ void Level::load_level() {
 	}
 	
 	Scene & scene = Scene::instance();
-	scene.add_object(m_player);
+	scene.append_object(m_player);
 	
-	for (const ObjectPtr & enemy : m_enemies) {
-		scene.add_object(enemy);
+	for (const Game::GameObjectPtr & enemy : m_enemies) {
+		scene.append_object(enemy);
 	}
 	
 	m_is_loaded = true;
@@ -48,10 +48,10 @@ void Level::load_out_level() {
 	}
 	
 	Scene & scene = Scene::instance();
-	scene.rem_object(m_player);
+	scene.remove_object(m_player);
 	
-	for (const ObjectPtr & enemy : m_enemies) {
-		scene.rem_object(enemy);
+	for (const Game::GameObjectPtr & enemy : m_enemies) {
+		scene.remove_object(enemy);
 	}
 	
 	m_is_loaded = false;

@@ -1,8 +1,8 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
-#include "Objects/Player.h"
-#include "Objects/Enemy.h"
+#include "GameObjects/Player.h"
+#include "GameObjects/Enemy.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -18,8 +18,8 @@ typedef std::shared_ptr<Object> ObjectPtr;
 
 class Level {
 	
-	std::vector<ObjectPtr> m_enemies;
-	ObjectPtr m_player;
+	std::vector<Game::GameObjectPtr> m_enemies;
+	Game::GameObjectPtr m_player;
 	
 	bool m_need_destroy;
 	bool m_is_won;

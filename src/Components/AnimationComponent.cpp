@@ -1,4 +1,4 @@
-#include "AnimationComponent.h"
+#include "Components/AnimationComponent.h"
 #include "Object.h"
 
 #include <algorithm>

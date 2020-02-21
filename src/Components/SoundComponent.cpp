@@ -1,4 +1,4 @@
-#include "SoundComponent.h"
+#include "Components/SoundComponent.h"
 #include "Object.h"
 
 SoundComponent::SoundComponent(Object * owner,

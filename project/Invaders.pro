@@ -17,12 +17,15 @@ HEADERS += ../include/Components/ComponentFactory.h
 HEADERS += ../include/Components/AnimationComponent.h
 HEADERS += ../include/Components/SoundComponent.h
 
-HEADERS += ../include/Objects/Object.h
-HEADERS += ../include/Objects/Player.h
-HEADERS += ../include/Objects/Bullet.h
-HEADERS += ../include/Objects/Enemy.h
+HEADERS += ../include/Object.h
 
-HEADERS += ../include/GUI/GObject.h
+HEADERS += ../include/GameObjects/GameObject.h
+HEADERS += ../include/GameObjects/Player.h
+HEADERS += ../include/GameObjects/Bullet.h
+HEADERS += ../include/GameObjects/Enemy.h
+
+HEADERS += ../include/GUIObjects/GUIObject.h
+HEADERS += ../include/GUIObjects/Label.h
 
 HEADERS += ../include/Scene.h
 HEADERS += ../include/Level.h
@@ -33,12 +36,15 @@ SOURCES += ../src/Components/ComponentFactory.cpp
 SOURCES += ../src/Components/AnimationComponent.cpp
 SOURCES += ../src/Components/SoundComponent.cpp
 
-SOURCES += ../src/Objects/Object.cpp
-SOURCES += ../src/Objects/Player.cpp
-SOURCES += ../src/Objects/Bullet.cpp
-SOURCES += ../src/Objects/Enemy.cpp
+SOURCES += ../src/Object.cpp
 
-SOURCES += ../src/GUI/GObject.cpp
+SOURCES += ../src/GameObjects/GameObject.cpp
+SOURCES += ../src/GameObjects/Player.cpp
+SOURCES += ../src/GameObjects/Bullet.cpp
+SOURCES += ../src/GameObjects/Enemy.cpp
+
+SOURCES += ../src/GUIObjects/GUIObject.cpp
+SOURCES += ../src/GUIObjects/Label.cpp
 
 SOURCES += ../src/Scene.cpp
 SOURCES += ../src/Level.cpp

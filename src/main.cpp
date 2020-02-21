@@ -1,8 +1,10 @@
 #include <iostream>
 
 #include "Scene.h"
-#include "Objects/Player.h"
-#include "Objects/Enemy.h"
+#include "GameObjects/Player.h"
+#include "GameObjects/Enemy.h"
+
+#include "GUIObjects/Label.h"
 
 #include "Components/AnimationComponent.h"
 
