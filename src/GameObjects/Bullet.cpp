@@ -2,8 +2,9 @@
 
 namespace Game {
 	
-	Bullet::Bullet(const sf::Vector2f & pos) :
-	    GameObject(gObj_t::bullet, pos)
+	Bullet::Bullet(Scene & scene,
+				   const sf::Vector2f & pos) :
+	    GameObject(gObj_t::bullet, scene, pos)
 	{
 		set_size(sf::Vector2f(8, 15));
 		set_fill_color(sf::Color::Red);

@@ -5,8 +5,9 @@
 
 namespace Game {
 	
-	Player::Player(const sf::Vector2f & pos) :
-	    GameObject (gObj_t::player, pos)
+	Player::Player(Scene & scene,
+				   const sf::Vector2f & pos) :
+	    GameObject (gObj_t::player, scene, pos)
 	{
 		set_size(sf::Vector2f(50, 50));
 		set_fill_color(sf::Color::White);
@@ -63,8 +64,8 @@ namespace Game {
 			const sf::Vector2f new_pos(pos.x + 21, pos.y - 25);
 			
 			if (bullet == nullptr || bullet->is_destroyed() == true) {
-				bullet = std::make_shared<Bullet>(new_pos);
-				Scene::instance().append_object(bullet);
+				bullet = std::make_shared<Bullet>(m_scene, new_pos);
+				m_scene.append_object(bullet);
 				return;
 			}
 			

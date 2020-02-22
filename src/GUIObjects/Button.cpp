@@ -7,10 +7,11 @@ namespace GUI {
 		current_button = sf::Mouse::ButtonCount;
 	}
 	
-	Button::Button(const std::string & text,
+	Button::Button(Scene & scene,
+				   const std::string & text,
 				   const sf::Font & font,
 				   const sf::Vector2f & pos) :
-		Label(text, font, pos),
+		Label(scene, text, font, pos),
 		m_mouse_enter_handler([](){}),
 		m_mouse_exit_handler([](){}),
 		m_mouse_stay_handler([](const sf::Vector2f &){}),

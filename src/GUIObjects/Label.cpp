@@ -2,10 +2,11 @@
 
 namespace GUI {
 	
-	Label::Label(const std::string & text,
+	Label::Label(Scene & scene,
+				 const std::string & text,
 				 const sf::Font & font,
 				 const sf::Vector2f & pos) :
-		GUIObject(gObj_t::label, pos)
+		GUIObject(gObj_t::label, scene, pos)
 	{
 		set_font(font);
 		set_text(text);

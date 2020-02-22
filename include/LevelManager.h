@@ -41,7 +41,7 @@ public:
 		m_level_list.push_back(level);
 	}
 	
-	inline void update() {
+	inline void update(float time) {
 		if (m_need_destroy == true ||
 				m_need_update == false)
 		{
@@ -63,7 +63,7 @@ public:
 			m_current_level->load_level();
 		}
 		
-		m_current_level->update();
+		m_current_level->update(time);
 		
 		if (m_current_level->is_won() == true) {
 			load_next_level();
@@ -74,6 +74,10 @@ public:
 			destroy();
 			return;
 		}
+	}
+	
+	inline void draw(sf::RenderWindow & window) {
+		m_current_level->draw(window);
 	}
 	
 	inline const LevelPtr & get_current_level() const {

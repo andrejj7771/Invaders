@@ -23,7 +23,8 @@ namespace Game {
 		
 	public:
 		
-		GameObject(gObj_t obj_type, const sf::Vector2f & pos = {0, 0});
+		GameObject(gObj_t obj_type, Scene & scene,
+				   const sf::Vector2f & pos = {0, 0});
 		virtual ~GameObject() override = default;
 		
 		inline gObj_t game_object_type() const {

@@ -14,9 +14,10 @@
 
 #include "Events.h"
 
+typedef std::shared_ptr<LevelManager> LevelManagerPtr;
+
 int main() {
 	MouseEvent & mouse_event = MouseEvent::instance();
-	Scene & scene = Scene::instance();
 	
 	ComponentFactory::register_component<AnimationManager>(component_t::animation);
 	
@@ -33,10 +34,7 @@ int main() {
 		
 		time /= 800;
 		
-		level_manager->update();
-		if (level_manager->is_end() == false) {
-			scene.update(time);
-		}
+		level_manager->update(time);
 		
 		sf::Event event;
 		while(window.pollEvent(event)) {
@@ -47,11 +45,9 @@ int main() {
 			mouse_event.update(window, event);
 		}
 		
-		scene.draw(window);
+		level_manager->draw(window);
 	}
 	
 	level_manager->destroy();
-	scene.destroy();
-	
 	return 0;
 }

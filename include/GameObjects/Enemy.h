@@ -14,7 +14,8 @@ namespace Game {
 		
 	public:
 		
-		Enemy(const sf::Vector2f & pos);
+		Enemy(Scene & scene,
+			  const sf::Vector2f & pos);
 		~Enemy() override = default;
 		
 	protected:

@@ -13,6 +13,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "Scene.h"
+
 class Object;
 typedef std::shared_ptr<Object> ObjectPtr;
 
@@ -21,11 +23,12 @@ class Level {
 	std::vector<Game::GameObjectPtr> m_enemies;
 	Game::GameObjectPtr m_player;
 	
+	Scene m_scene;
+	
 	bool m_need_destroy;
 	bool m_is_won;
 	bool m_is_failed;
 	bool m_is_loaded;
-	
 	
 	std::string m_level_name;
 	
@@ -34,7 +37,7 @@ public:
 	Level(const std::string & level_name = "");
 	~Level() = default;
 	
-	inline void update() {
+	inline void update(float time) {
 		if (m_need_destroy == true ||
 				m_is_won == true ||
 				m_is_failed == true)
@@ -59,6 +62,12 @@ public:
 			m_is_won = true;
 			return;
 		}
+		
+		m_scene.update(time);
+	}
+	
+	inline void draw(sf::RenderWindow & window) {
+		m_scene.draw(window);
 	}
 	
 	inline bool is_won() const {
@@ -73,17 +82,48 @@ public:
 		return m_is_loaded;
 	}
 	
-	void create_player(const sf::Vector2f & pos);
+	inline void spawn_player(const sf::Vector2f & pos) {
+		if (m_player != nullptr) {
+			return;
+		}
+		
+		m_player = std::make_shared<Game::Player>(m_scene, pos);
+	}
 	
-	inline const ObjectPtr & get_player() const {
+	inline const Game::GameObjectPtr & get_player() const {
 		return m_player;
 	}
 	
-	void add_enemy(const sf::Vector2f & pos);
+	inline void spawn_enemy(const sf::Vector2f & pos) {
+		Game::GameObjectPtr enemy = std::make_shared<Game::Enemy>(m_scene, pos);
+		m_enemies.push_back(enemy);
+	}
 	
-	void load_level();
+	inline void load_level() {
+		if (m_is_loaded) {
+			printf("%s -> level \"%s\" is already loaded\n",
+				   __FUNCTION__,
+				   m_level_name.data());
+			return;
+		}
+		
+		m_scene.append_object(m_player);
+		
+		for (const Game::GameObjectPtr & enemy : m_enemies) {
+			m_scene.append_object(enemy);
+		}
+		
+		m_is_loaded = true;
+	}
 	
-	void load_out_level();
+	inline void load_out_level() {
+		if (m_is_loaded == false) {
+			return;
+		}
+		
+		m_scene.destroy();
+		m_is_loaded = false;
+	}
 	
 	inline void destroy() {
 		if (m_need_destroy == true) {
@@ -137,9 +177,9 @@ public:
 			float c_y = std::stof(y);
 			
 			if (c_type == '1') {
-				create_player(sf::Vector2f(c_x, c_y));
+				spawn_player(sf::Vector2f(c_x, c_y));
 			} else if(c_type == '2') {
-				add_enemy(sf::Vector2f(c_x, c_y));
+				spawn_enemy(sf::Vector2f(c_x, c_y));
 			} else {
 				continue;
 			}
@@ -152,6 +192,7 @@ public:
 	inline const std::string & get_level_name() const {
 		return m_level_name;
 	}
+	
 };
 
 

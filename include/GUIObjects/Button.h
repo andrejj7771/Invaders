@@ -42,7 +42,8 @@ namespace GUI {
 		
 	public:
 		
-		Button(const std::string & text,
+		Button(Scene & scene,
+			   const std::string & text,
 			   const sf::Font & font,
 			   const sf::Vector2f & pos = {0, 0});
 		~Button() override;

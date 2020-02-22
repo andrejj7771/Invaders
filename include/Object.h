@@ -16,6 +16,8 @@ enum class obj_t : uint8_t {
 	gui_object = 2
 };
 
+class Scene;
+
 class Object;
 typedef std::shared_ptr<Object> ObjectPtr;
 
@@ -50,6 +52,8 @@ class Object {
 	
 protected:
 	
+	Scene & m_scene;
+	
 	///
 	/// \brief m_shape - shape of the object
 	///
@@ -57,7 +61,8 @@ protected:
 	
 public:
 	
-	Object(obj_t type, const sf::Vector2f & pos = {0, 0});
+	Object(obj_t type, Scene & scene,
+		   const sf::Vector2f & pos = {0, 0});
 	virtual ~Object() = default;
 	
 	///

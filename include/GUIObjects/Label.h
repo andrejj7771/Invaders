@@ -16,7 +16,8 @@ namespace GUI {
 		
 	public:
 		
-		Label(const std::string & text,
+		Label(Scene & scene,
+			  const std::string & text,
 			  const sf::Font & font,
 			  const sf::Vector2f & pos = {0, 0});
 		virtual ~Label() override = default;

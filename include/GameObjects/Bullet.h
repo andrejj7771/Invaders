@@ -9,7 +9,8 @@ namespace Game {
 		
 	public:
 		
-		Bullet(const sf::Vector2f & pos);
+		Bullet(Scene & scene,
+			   const sf::Vector2f & pos);
 		~Bullet() override = default;
 		
 	protected:

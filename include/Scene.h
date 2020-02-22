@@ -1,12 +1,8 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "LevelManager.h"
-
 #include "GUIObjects/GUIObject.h"
 #include "GameObjects/GameObject.h"
-
-typedef std::shared_ptr<LevelManager> LevelManagerPtr;
 
 class Scene {
 	
@@ -15,17 +11,9 @@ class Scene {
 	
 	bool m_need_destroy;
 	
-private:
-	
-	Scene();
-	
-	Scene(Scene & scene) = delete;
-	Scene & operator=(const Scene & scene) = delete;
-	
 public:
 	
-	static Scene & instance();
-	
+	Scene();
 	~Scene() = default;
 	
 	inline void update(float time) {

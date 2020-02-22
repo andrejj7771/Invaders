@@ -2,8 +2,9 @@
 
 namespace Game {
 	
-	GameObject::GameObject(gObj_t obj_type, const sf::Vector2f & pos) :
-		Object(obj_t::game_object, pos)
+	GameObject::GameObject(gObj_t obj_type, Scene & scene,
+						   const sf::Vector2f & pos) :
+		Object(obj_t::game_object, scene, pos)
 	{
 		m_object_type = obj_type;
 	}

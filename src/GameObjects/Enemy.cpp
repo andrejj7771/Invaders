@@ -2,8 +2,9 @@
 
 namespace Game {
 	
-	Enemy::Enemy(const sf::Vector2f & pos) :
-		GameObject(gObj_t::enemy, pos),
+	Enemy::Enemy(Scene & scene,
+				 const sf::Vector2f & pos) :
+		GameObject(gObj_t::enemy, scene, pos),
 		m_target_pos(pos),
 		m_offset(sf::Vector2f(-100, 50))
 	{

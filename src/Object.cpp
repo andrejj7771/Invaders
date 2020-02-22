@@ -1,6 +1,9 @@
 #include "Object.h"
 
-Object::Object(obj_t type, const sf::Vector2f & pos) {
+Object::Object(obj_t type, Scene & scene,
+			   const sf::Vector2f & pos) :
+	m_scene(scene)
+{
 	static size_t id = 0;
 	m_id = id++;
 	

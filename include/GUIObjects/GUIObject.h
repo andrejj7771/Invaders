@@ -24,7 +24,7 @@ namespace GUI {
 		
 	public:
 		
-		GUIObject(gObj_t type,
+		GUIObject(gObj_t type, Scene & scene,
 				  const sf::Vector2f & pos = {0, 0});
 		
 		virtual ~GUIObject() override = default;
