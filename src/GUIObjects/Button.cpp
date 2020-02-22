@@ -62,8 +62,10 @@ namespace GUI {
 		
 		if (m_is_stay) {
 			if (state.button_state == sf::Event::MouseButtonPressed) {
+				m_is_pressed = true;
 				m_mouse_pressed_handler(state.button);
-			} else if (state.button_state == sf::Event::MouseButtonReleased) {
+			} else if (state.button_state == sf::Event::MouseButtonReleased && m_is_pressed) {
+				m_is_pressed = false;
 				m_mouse_released_handler(state.button);
 			}
 		}

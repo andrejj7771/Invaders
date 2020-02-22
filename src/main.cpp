@@ -14,8 +14,12 @@
 
 #include "Events.h"
 
-void button_click_callback(sf::Mouse::Button button) {
-	printf("press %d\n", button);
+void button_pressed_callback(sf::Mouse::Button button) {
+	printf("pressed: %d\n", button);
+}
+
+void button_released_callback(sf::Mouse::Button button) {
+	printf("released: %d\n", button);
 }
 
 int main() {
@@ -39,7 +43,8 @@ int main() {
 	button->set_text_color(sf::Color::Blue);
 	button->set_fill_color(sf::Color::Green);
 	
-	button->set_mouse_pressed_callback(std::bind(&::button_click_callback, std::placeholders::_1));
+	button->set_mouse_pressed_callback(std::bind(&::button_pressed_callback, std::placeholders::_1));
+	button->set_mouse_released_callback(std::bind(&::button_released_callback, std::placeholders::_1));
 	
 	scene.append_object(button);
 	
