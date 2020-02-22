@@ -27,7 +27,7 @@ namespace GUI {
 	class Button;
 	typedef std::shared_ptr<Button> ButtonPtr;
 	
-	class Button : public Label, public EventSubscriber {
+	class Button : public Label, public MouseEventSubscriber {
 		
 		GUIEvent m_event;
 		

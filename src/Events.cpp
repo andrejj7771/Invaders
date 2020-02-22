@@ -18,7 +18,7 @@ MouseEvent & MouseEvent::instance() {
 	return _instance;
 }
 
-void MouseEvent::subscribe(EventSubscriber * subscriber) {
+void MouseEvent::subscribe(MouseEventSubscriber * subscriber) {
 	assert(subscriber != nullptr);
 	
 	auto it = std::find(m_subscribers.begin(), m_subscribers.end(), subscriber);
@@ -29,7 +29,7 @@ void MouseEvent::subscribe(EventSubscriber * subscriber) {
 	m_subscribers.push_back(subscriber);
 }
 
-void MouseEvent::unsubscribe(EventSubscriber * subscriber) {
+void MouseEvent::unsubscribe(MouseEventSubscriber * subscriber) {
 	assert(subscriber != nullptr);
 	
 	auto it = std::find(m_subscribers.begin(), m_subscribers.end(), subscriber);

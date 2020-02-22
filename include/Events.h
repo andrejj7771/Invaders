@@ -17,6 +17,7 @@ struct MouseState {
 
 class MouseEvent;
 
+template<typename type>
 class EventSubscriber {
 	
 	friend class MouseEvent;
@@ -28,14 +29,16 @@ public:
 	
 protected:
 	
-	virtual void on_event(const MouseState & e) = 0;
+	virtual void on_event(const type & event) = 0;
 	
 };
+
+typedef EventSubscriber<MouseState> MouseEventSubscriber;
 
 class MouseEvent {
 	
 	MouseState m_state;
-	std::vector<EventSubscriber *> m_subscribers;
+	std::vector<MouseEventSubscriber*> m_subscribers;
 	
 	MouseEvent() = default;
 	MouseEvent(const MouseEvent & event) = delete;
@@ -47,8 +50,8 @@ public:
 	
 	static MouseEvent & instance();
 	
-	void subscribe(EventSubscriber *subscriber);
-	void unsubscribe(EventSubscriber * subscriber);
+	void subscribe(MouseEventSubscriber *subscriber);
+	void unsubscribe(MouseEventSubscriber * subscriber);
 	
 	void update(const sf::RenderWindow & window,
 				const sf::Event & event);
