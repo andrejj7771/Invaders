@@ -37,8 +37,8 @@ namespace GUI {
 		std::function<void()> m_mouse_enter_handler;
 		std::function<void()> m_mouse_exit_handler;
 		std::function<void(const sf::Vector2f & pos)> m_mouse_stay_handler;
-		std::function<void(sf::Mouse::Button)> m_mouse_press_handler;
-		std::function<void(sf::Mouse::Button)> m_mouse_release_handler;
+		std::function<void(sf::Mouse::Button)> m_mouse_pressed_handler;
+		std::function<void(sf::Mouse::Button)> m_mouse_released_handler;
 		
 	public:
 		
@@ -59,8 +59,12 @@ namespace GUI {
 			m_mouse_stay_handler = callback;
 		}
 		
-		inline void set_mouse_click_callback(const std::function<void(sf::Mouse::Button)> & callback) {
-			m_mouse_press_handler = callback;
+		inline void set_mouse_pressed_callback(const std::function<void(sf::Mouse::Button)> & callback) {
+			m_mouse_pressed_handler = callback;
+		}
+		
+		inline void set_mouse_released_callback(const std::function<void(sf::Mouse::Button)> & callback) {
+			m_mouse_released_handler = callback;
 		}
 		
 	protected:
