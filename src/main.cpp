@@ -12,12 +12,16 @@
 #include "Level.h"
 #include "LevelManager.h"
 
+#include "Events.h"
+
 void button_click_callback(sf::Mouse::Button) {
 	static int counter = 0;
 	printf("click %d\n", counter++);
 }
 
 int main() {
+	MouseEvent & mouse_event = MouseEvent::instance();
+	
 	ComponentFactory::register_component<AnimationManager>(component_t::animation);
 	
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Invaders");
@@ -32,17 +36,12 @@ int main() {
 	sf::Font font;
 	font.loadFromFile("../data/fonts/tnr.ttf");
 	
-	GUI::LabelPtr label = std::make_shared<GUI::Label>("Label", font, sf::Vector2f(10, 10));
-	label->set_text_color(sf::Color::Red);
-	label->set_fill_color(sf::Color::Green);
-	
 	GUI::ButtonPtr button = std::make_shared<GUI::Button>("Button", font, sf::Vector2f(10, 50));
 	button->set_text_color(sf::Color::Blue);
 	button->set_fill_color(sf::Color::Green);
 	
 	button->set_mouse_click_callback(std::bind(&::button_click_callback, std::placeholders::_1));
 	
-	scene.append_object(label);
 	scene.append_object(button);
 	
 	while(window.isOpen()) {
@@ -62,13 +61,7 @@ int main() {
 				window.close();
 			}
 			
-			if (event.type == sf::Event::MouseButtonPressed) {
-				printf("pressed\n");
-			}
-			
-			if (event.type == sf::Event::MouseButtonReleased) {
-				printf("released\n");
-			}
+			mouse_event.update(window, event);
 		}
 		
 		scene.draw(window);

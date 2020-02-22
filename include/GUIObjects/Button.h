@@ -2,13 +2,32 @@
 #define BUTTON_H
 
 #include "Label.h"
+#include "Events.h"
 
 namespace GUI {
+	
+	enum class gEvent_t : char {
+		mouse_enter = 0,
+		mouse_stay = 1,
+		mouse_exit = 2,
+		mouse_press = 3,
+		mouse_release = 4
+	};
+	
+	struct GUIEvent {
+		
+		gEvent_t type;
+		sf::Mouse::Button current_button;
+		sf::Mouse::Button last_button;
+		
+		GUIEvent();
+		
+	};
 	
 	class Button;
 	typedef std::shared_ptr<Button> ButtonPtr;
 	
-	class Button : public Label {
+	class Button : public Label, public EventSubscriber {
 		
 		GUIEvent m_event;
 		
@@ -26,7 +45,7 @@ namespace GUI {
 		Button(const std::string & text,
 			   const sf::Font & font,
 			   const sf::Vector2f & pos = {0, 0});
-		~Button() override = default;
+		~Button() override;
 		
 		inline void set_mouse_enter_callback(const std::function<void()> & callback) {
 			m_mouse_enter_handler = callback;
@@ -47,22 +66,7 @@ namespace GUI {
 	protected:
 		
 		void on_destroy() override;
-		void on_update(float time) override;
-		void on_draw(sf::RenderWindow & window) override;
-		
-	private:
-		
-		inline void mouse_press(sf::Mouse::Button button) {
-			m_event.current_button = button;
-			m_is_pressed = true;
-			m_mouse_press_handler(button);
-		}
-		
-		inline void mouse_release(sf::Mouse::Button button) {
-			m_mouse_release_handler(button);
-			m_is_pressed = false;
-			m_event.current_button = sf::Mouse::ButtonCount;
-		}
+		void on_event(const MouseState & state) override;
 		
 	};
 	

@@ -13,26 +13,8 @@ namespace GUI {
 		button = 2
 	};
 	
-	enum class gEvent_t : char {
-		mouse_enter = 0,
-		mouse_stay = 1,
-		mouse_exit = 2,
-		mouse_press = 3,
-		mouse_release = 4
-	};
-	
 	class GUIObject;
 	typedef std::shared_ptr<GUIObject> GUIObjectPtr;
-	
-	struct GUIEvent {
-		
-		gEvent_t type;
-		sf::Mouse::Button current_button;
-		sf::Mouse::Button last_button;
-		
-		GUIEvent();
-		
-	};
 	
 	class GUIObject : public Object {
 		

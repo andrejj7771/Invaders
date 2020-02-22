@@ -2,6 +2,11 @@
 
 namespace GUI {
 	
+	GUIEvent::GUIEvent() {
+		last_button = sf::Mouse::ButtonCount;
+		current_button = sf::Mouse::ButtonCount;
+	}
+	
 	Button::Button(const std::string & text,
 				   const sf::Font & font,
 				   const sf::Vector2f & pos) :
@@ -15,28 +20,29 @@ namespace GUI {
 		m_gui_type = gObj_t::button;
 		m_is_stay = false;
 		m_is_pressed = false;
+		
+		MouseEvent::instance().subscribe(this);
 	}
 	
-	void Button::on_draw(sf::RenderWindow & window) {
-		Label::on_draw(window);
-		
-		const sf::Vector2i & window_pos = window.getPosition();
-		const sf::Vector2i & mouse_pos = sf::Mouse::getPosition();
-		
-		sf::Vector2f delta_pos;
-		delta_pos.x = std::abs(window_pos.x - mouse_pos.x);
-		delta_pos.y = std::abs(window_pos.y - mouse_pos.y) - 40;
-		
+	Button::~Button() {
+		MouseEvent::instance().unsubscribe(this);
+	}
+	
+	void Button::on_destroy() {
+		MouseEvent::instance().unsubscribe(this);
+	}
+	
+	void Button::on_event(const MouseState & state) {
 		const sf::Vector2f & pos = get_position();
 		const sf::Vector2f & size = get_size();
 		
 		bool x = false;
-		if (delta_pos.x >= pos.x && delta_pos.x <= pos.x + size.x) {
+		if (state.pos.x >= pos.x && state.pos.x <= pos.x + size.x) {
 			x = true;
 		}
 		
 		bool y = false;
-		if (delta_pos.y >= pos.y && delta_pos.y <= pos.y + size.y) {
+		if (state.pos.y >= pos.y && state.pos.y <= pos.y + size.y) {
 			y = true;
 		}
 		
@@ -46,28 +52,19 @@ namespace GUI {
 			}
 			
 			m_is_stay = true;
-			m_mouse_stay_handler({static_cast<float>(mouse_pos.x),
-								  static_cast<float>(mouse_pos.y)});
+			m_mouse_stay_handler(state.pos);
 		} else {
 			if (m_is_stay == true) {
 				m_mouse_exit_handler();
 			}
 			m_is_stay = false;
 		}
-	}
-	
-	void Button::on_destroy() {}
-	
-	void Button::on_update(float time) {
-		Label::on_update(time);
 		
-		if (m_is_stay == true && m_is_pressed == false) {
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-				mouse_press(sf::Mouse::Left);
-			} else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-				mouse_press(sf::Mouse::Right);
-			} else if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
-				mouse_press(sf::Mouse::Middle);
+		if (m_is_stay) {
+			if (state.button_state == sf::Event::MouseButtonPressed) {
+				m_mouse_press_handler(state.button);
+			} else if (state.button_state == sf::Event::MouseButtonReleased) {
+				m_mouse_release_handler(state.button);
 			}
 		}
 	}
